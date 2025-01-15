@@ -7,4 +7,7 @@ urlpatterns = [
   path("EmployeeDelete/<int:id>",views.EmployeeDelete,name="EmployeeDelete"),
   path("EmployeeUpdate/<int:id>",views.EmployeeUpdate,name="EmployeeUpdate"),
   path("EmployeeInsert",views.EmployeeInsert,name="EmployeeInsert"),
+  path("BulkEmployeeInsert",views.BulkEmployeeInsert,name="BulkEmployeeInsert"),
+  path("NewBulkEmployeeInsertFormSet",views.NewBulkEmployeeInsertFormSet,name="NewBulkEmployeeInsertFormSet"),
+
 ]

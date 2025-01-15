@@ -38,3 +38,7 @@ class Employee(models.Model):
     EmpDepartment=models.ForeignKey("Department",null=True,on_delete=models.PROTECT,related_name="Departments")
     EmpCountry=models.ForeignKey("Country",null=True,on_delete=models.PROTECT,related_name="Countries")
    
+class PartTimeEmployee(models.Model):
+    FirstName=models.CharField(max_length=30)
+    LastName=models.CharField(max_length=30)
+    TitleName=models.CharField(max_length=30)

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Bulk Insert</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <center>
+            <h2>Bulk Insert</h2>
+        </center>
+        <br />
+        <form method="post" action="">
+
+            {% csrf_token %}
+            {{ formset.management_form }}
+            <div class="form-row font-weight-bold">
+                <div class="col-md-4 mb-3">
+                    <center>First Name</center>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <center>Last Name</center>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <center>Title</center>
+                </div>
+            </div>
+
+
+            {% for form in formset %}
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <center>{{ form.FirstName }}</center>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <center>{{ form.LastName }}</center>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <center>{{ form.TitleName }}</center>
+                </div>
+            </div>
+            {% endfor %}
+
+            <center> <button type="submit" class="btn btn-primary">Submit</button></center>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

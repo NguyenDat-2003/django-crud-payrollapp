@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from PayRollApp.forms import EmployeeForm
-from PayRollApp.models import Employee
+from PayRollApp.forms import EmployeeForm,PartTimeEmployeeForm,PartTimeEmployeeFormSet
+from PayRollApp.models import Employee,PartTimeEmployee
 
 
 # Create your views here.
@@ -49,3 +49,31 @@ def EmployeeInsert(request):
         return redirect("EmployeesList")
     
     return render(request,"PayRollApp/EmployeeInsert.html",context)
+
+def BulkEmployeeInsert(request):
+    extra_forms = 10
+    Status=''
+
+    forms = [PartTimeEmployeeForm(request.POST or None, prefix=f'employee-{i}')  for i in range(extra_forms)]
+
+    if request.method=="POST":        
+        for form in forms:
+            if form.is_valid() and form.cleaned_data.get('FirstName', '') :
+                form.save()
+                Status='Records were inserted successfully..'
+            
+    
+    return render(request,"PayRollApp/PartTimeEmployeeList.html",{"forms" : forms, "Status" : Status })
+
+def NewBulkEmployeeInsertFormSet(request):
+    if request.method == "POST":
+        formset = PartTimeEmployeeFormSet(request.POST)
+        if formset.is_valid():
+            employees = formset.save(commit=False)
+            PartTimeEmployee.objects.bulk_create(employees)
+            return redirect('NewBulkEmployeeInsertFormSet')
+    else:
+        formset = PartTimeEmployeeFormSet(queryset=PartTimeEmployee.objects.none())
+            
+    
+    return render(request,"PayRollApp/NewBulkInsert.html",{"formset": formset})

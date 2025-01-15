@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulk Insert Demo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<body>
+
+  <div class="container mt-5">
+    <center>
+      <h2>Bulk Insert</h2>
+    </center>
+    <br />
+    <form method="post" action="">
+      {% csrf_token %}
+      <div class="form-row font-weight-bold">
+        <div class="col-md-4 mb-3">
+          <center>First Name</center>
+        </div>
+        <div class="col-md-4 mb-3">
+          <center>Last Name</center>
+        </div>
+        <div class="col-md-4 mb-3">
+          <center>Title</center>
+        </div>
+      </div>
+      {% for form in forms %}
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <center>{{ form.FirstName }}</center>
+        </div>
+        <div class="col-md-4 mb-3">
+          <center>{{ form.LastName }}</center>
+        </div>
+        <div class="col-md-4 mb-3">
+          <center>{{ form.TitleName }}</center>
+        </div>
+      </div>
+      {% endfor %}
+
+      <center> <button type="submit" class="btn btn-primary" formnovalidate="formnovalidate">Submit</button></center>
+
+    </form>
+
+    <div>
+      <h1>{{Status}}
+    </div>
+  </div>
+
+
+</body>
+
+</html>

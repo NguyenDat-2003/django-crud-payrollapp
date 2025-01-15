@@ -16,10 +16,60 @@
 
     <h1>Employee Insert Form</h1>
     <form method="post">
-        <table class="table">
+        <!-- <table class="table">
             {{form.as_table}}
-        </table>
+        </table> -->
+        <table class="table">
+            <tr>
+                <td>First Name</td>
+                <td>{{form.FirstName}}</td>
+            </tr>
 
+            <tr>
+                <td>Last Name</td>
+                <td>{{form.LastName}}</td>
+            </tr>
+            <tr>
+                <td>Title Name</td>
+                <td>{{form.TitleName}}</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>{{form.HasPassport}}</td>
+            </tr>
+            <tr>
+                <td>Salary</td>
+                <td>{{form.Salary}}</td>
+            </tr>
+            <tr>
+                <td>BirthDate</td>
+                <td>{{form.BirthDate}}</td>
+            </tr>
+            <tr>
+                <td>HireDate</td>
+                <td>{{form.HireDate}}</td>
+            </tr>
+            <tr>
+                <td>Notes</td>
+                <td>{{form.Notes}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{form.Email}}</td>
+            </tr>
+            <tr>
+                <td>PhoneNumber</td>
+                <td>{{form.PhoneNumber}}</td>
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>{{form.EmpDepartment}}</td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td>{{form.EmpCountry}}</td>
+            </tr>
+        </table>
         {% csrf_token %}
         <input type="submit" name="" class='btn btn-success btn-lg' value="Insert Record">
         <a href="/EmployeesList">Back to List</a>
