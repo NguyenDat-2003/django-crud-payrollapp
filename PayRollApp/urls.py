@@ -9,5 +9,8 @@ urlpatterns = [
   path("EmployeeInsert",views.EmployeeInsert,name="EmployeeInsert"),
   path("BulkEmployeeInsert",views.BulkEmployeeInsert,name="BulkEmployeeInsert"),
   path("NewBulkEmployeeInsertFormSet",views.NewBulkEmployeeInsertFormSet,name="NewBulkEmployeeInsertFormSet"),
+  path("BulkUpdate",views.BulkEmployeeUpdate,name="BulkEmployeeUpdate"),
+  path("BulkDelete",views.BulkDelete,name="BulkDelete"),
+  path("BulkDeleteUsingRadio",views.BulkDeleteUsingRadio,name="BulkDeleteUsingRadio"),
 
 ]

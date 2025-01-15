@@ -77,3 +77,43 @@ def NewBulkEmployeeInsertFormSet(request):
             
     
     return render(request,"PayRollApp/NewBulkInsert.html",{"formset": formset})
+
+def BulkEmployeeUpdate(request):
+    employees = PartTimeEmployee.objects.all()
+    forms = [PartTimeEmployeeForm(request.POST or None, instance=emp , prefix=f"employee-{emp.id}" ) for emp in employees]
+
+    if request.method == "POST":
+        updated_data = []
+        for form in forms:
+            if form.is_valid():
+                emp = form.instance
+                emp.FirstName = form.cleaned_data['FirstName']
+                emp.LastName = form.cleaned_data['LastName']
+                emp.TitleName = form.cleaned_data['TitleName']
+                updated_data.append(emp)
+        PartTimeEmployee.objects.bulk_update(updated_data,fields=["FirstName","LastName","TitleName"])
+    
+    return render(request,"PayRollApp/BulkUpdate.html",{"forms" : forms})
+
+def BulkDelete(request):
+    employees = PartTimeEmployee.objects.all()
+
+    if request.method == "POST":
+        selected_ids = request.POST.getlist('selected_ids')
+
+        if selected_ids:
+            PartTimeEmployee.objects.filter(pk__in=selected_ids).delete()
+            return redirect('BulkDelete')
+        
+    return render(request,"PayRollApp/BulkDelete.html",{"employees" : employees})
+
+def BulkDeleteUsingRadio(request):
+    employees = PartTimeEmployee.objects.all()
+
+    if request.method == "POST":
+        selected_id = request.POST.get('selected_id')
+        if selected_id:
+            PartTimeEmployee.objects.filter(pk=selected_id).delete()
+            return redirect('BulkDeleteUsingRadio')
+        
+    return render(request,"PayRollApp/BulkDeleteUsingRadio.html",{"employees" : employees})

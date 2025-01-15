@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Using RadioButton</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h2>Employee List</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                    <tr>
+                        <td><input type="radio" name="selected_id" value="{{ employee.id }}"></td>
+                        <td>{{ employee.id }}</td>
+                        <td>{{ employee.FirstName }}</td>
+                        <td>{{ employee.LastName }}</td>
+                        <td>{{ employee.TitleName }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-danger" id="delete-submit">Delete Submit</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#delete-submit').on('click', function () {
+                var selectedId = $('input[name="selected_id"]:checked').val();
+
+                if (selectedId) {
+                    var confirmDelete = confirm("Are you sure you want to delete the selected row?");
+                    if (confirmDelete) {
+                        $('form').submit();
+                    }
+                } else {
+                    alert("Please select a row to delete.");
+                }
+            })
+
+        })
+
+    </script>
+
+
+</body>
+
+</html>
