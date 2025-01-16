@@ -1,4 +1,4 @@
-from PayRollApp.models import Employee,PartTimeEmployee
+from PayRollApp.models import Employee, OnSiteEmployees,PartTimeEmployee
 from django import forms
 
 class EmployeeForm(forms.ModelForm):
@@ -19,3 +19,37 @@ class NewPartTimeEmployeeForm(forms.ModelForm):
 
 
 PartTimeEmployeeFormSet = forms.modelformset_factory(PartTimeEmployee, form=NewPartTimeEmployeeForm,extra=10)
+
+class OnSiteEmployeesForm(forms.ModelForm):
+    class Meta:
+        model = OnSiteEmployees
+        fields = ['first_name', 'last_name', 'country', 'state', 'city']
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': "form-control",
+                'style': 'max-width: 300px;',
+                'placeholder': 'First Name'
+                }),
+             'last_name': forms.TextInput(attrs={
+                'class': "form-control",
+                'style': 'max-width: 300px;',
+                'placeholder': 'Last Name'
+                }),
+            'country': forms.Select(attrs={
+                'class': "form-control", 
+                'style': 'max-width: 300px;',
+                'placeholder': 'Country'
+
+                }),
+            'state': forms.Select(attrs={
+                'class': "form-control", 
+                'style': 'max-width: 300px;',
+                'placeholder': 'state'
+                }),
+            'city': forms.Select(attrs={
+                'class': "form-control", 
+                'style': 'max-width: 300px;',
+                'placeholder': 'city'
+                })
+         }

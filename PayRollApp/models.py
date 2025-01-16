@@ -42,3 +42,25 @@ class PartTimeEmployee(models.Model):
     FirstName=models.CharField(max_length=30)
     LastName=models.CharField(max_length=30)
     TitleName=models.CharField(max_length=30)
+
+class State(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, default=None)
+    
+    def __str__(self):
+        return self.name
+class City(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    state = models.ForeignKey(State, on_delete=models.PROTECT, default=None)
+    
+    def __str__(self):
+        return self.name
+class OnSiteEmployees(models.Model):
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT,default=None)
+    state = models.ForeignKey(State, on_delete=models.PROTECT, default=None)
+    city = models.ForeignKey(City, on_delete=models.PROTECT, default=None)
+    
+    def __str__(self):
+        return self.first_name
