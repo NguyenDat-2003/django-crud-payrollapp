@@ -1,6 +1,9 @@
 from django.shortcuts import redirect, render
+from CRUDOperationsExample import settings
 from PayRollApp.forms import EmployeeForm,PartTimeEmployeeForm,PartTimeEmployeeFormSet
 from PayRollApp.models import Employee,PartTimeEmployee
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 
 
 # Create your views here.
@@ -117,3 +120,26 @@ def BulkDeleteUsingRadio(request):
             return redirect('BulkDeleteUsingRadio')
         
     return render(request,"PayRollApp/BulkDeleteUsingRadio.html",{"employees" : employees})
+
+def PageWiseEmployeesList(request):
+    per_page = int(request.GET.get('per_page', getattr(settings, 'PER_PAGE')))
+    page_number = request.GET.get("page")
+    employees_page = PartTimeEmployee.objects.all()
+    paginator = Paginator(employees_page, per_page)  
+
+    try:
+        employees_page = paginator.page(page_number)
+    except PageNotAnInteger:
+        # Nếu page_number không thuộc kiểu integer, trả về page đầu tiên
+        employees_page = paginator.page(1)
+    except EmptyPage:
+        # Nếu page không có item nào, trả về page cuối cùng
+        employees_page = paginator.page(paginator.num_pages)
+
+    context = { 
+        "employees_page" : employees_page, 
+        "paginator":paginator ,
+        "per_page": per_page
+        }
+
+    return render(request,"PayRollApp/PageWiseEmployees.html",context)
