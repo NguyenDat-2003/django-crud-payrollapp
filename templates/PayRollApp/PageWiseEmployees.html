@@ -16,6 +16,14 @@
         <center>
             <h2>View All Employees</h2>
         </center>
+
+        <!-- Search Form -->
+        <form method="get" action="">
+            <label for="search">Enter the keyword to search: </label>
+            <input type="text" id="search" name="search" value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
         <br />
 
         <form id="page-size-form" method="get" action="">

@@ -3,7 +3,7 @@ from CRUDOperationsExample import settings
 from PayRollApp.forms import EmployeeForm,PartTimeEmployeeForm,PartTimeEmployeeFormSet
 from PayRollApp.models import Employee,PartTimeEmployee
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from django.db.models import Q
 
 
 # Create your views here.
@@ -125,6 +125,17 @@ def PageWiseEmployeesList(request):
     per_page = int(request.GET.get('per_page', getattr(settings, 'PER_PAGE')))
     page_number = request.GET.get("page")
     employees_page = PartTimeEmployee.objects.all()
+
+    # ----------------- Search Functionality
+    search_query = request.GET.get("search" , "")
+    # Query employees based on the search query
+    employees_page = PartTimeEmployee.objects.filter(
+        Q(id__icontains=search_query) |
+        Q(FirstName__icontains=search_query) |
+        Q(LastName__icontains=search_query) |
+        Q(TitleName__icontains=search_query)
+    )
+
     paginator = Paginator(employees_page, per_page)  
 
     try:
@@ -139,7 +150,8 @@ def PageWiseEmployeesList(request):
     context = { 
         "employees_page" : employees_page, 
         "paginator":paginator ,
-        "per_page": per_page
+        "per_page": per_page,
+        "search_query": search_query,
         }
 
     return render(request,"PayRollApp/PageWiseEmployees.html",context)
