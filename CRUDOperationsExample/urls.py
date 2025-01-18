@@ -17,9 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
-import PayRollApp
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("PayRollApp.urls"))
+    path('', include("PayRollApp.urls")),
+    path('', include("LegacyDatabasesApp.urls"))
 ]

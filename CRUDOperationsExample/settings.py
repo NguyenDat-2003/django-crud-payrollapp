@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PayRollApp',
+    'LegacyDatabasesApp',
 ]
 
 MIDDLEWARE = [
@@ -76,17 +77,17 @@ WSGI_APPLICATION = 'CRUDOperationsExample.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-     'default': {  
-        'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'django_payrollapp',  
-        'USER': 'root',  
-        'PASSWORD': 'mysql',  
-        'HOST': 'localhost',  
-        'PORT': '3360',  
-        'OPTIONS': {  
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
-        }  
-    }  
+    'default':{
+        'ENGINE':'mssql',                   
+        'NAME':'northwind',   
+        'USER':'sa',                    
+        'PASSWORD':'sa123',                    
+        'HOST':'DESKTOP-8I1VIDD\SQLEXPRESS', 
+        'PORT':'',                           
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    }
 }
 
 
