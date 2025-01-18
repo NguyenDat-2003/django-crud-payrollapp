@@ -50,8 +50,51 @@ def SPWithParametersDemo(request):
   cursor.execute("{call SP_GetAllOrders}")
   orders=cursor.fetchall()
 
+  subtotal = 0
+  runningTotal = 0
+  runningOrderTotal = 0
+  runningOrderTotal = 0
+  newOrders = []
+
+  prevOrderId = 0
+
+  for order in orders:
+    if prevOrderId == 0:
+      prevOrderId = order.OrderID
+      runningTotal += order.BillAmount
+      runningOrderTotal += order.BillAmount
+      subtotal += order.BillAmount
+      newOrders.append(pushData(order,runningTotal,runningOrderTotal))
+    elif prevOrderId == order.OrderID:
+      runningTotal += order.BillAmount
+      runningOrderTotal += order.BillAmount
+      subtotal += order.BillAmount
+      newOrders.append(pushData(order,runningTotal,runningOrderTotal))
+    else :
+      newOrders.append(pushData(0,subtotal,0))
+      prevOrderId = order.OrderID
+      runningTotal += order.BillAmount
+      runningOrderTotal += order.BillAmount
+      subtotal += order.BillAmount
+      newOrders.append(pushData(order,runningTotal,runningOrderTotal))
+
+  newOrders.append(pushData(0,subtotal,0))
+
   cursor.close()
   cnxn.close()
-  return render(request,"LegacyDatabasesApp/ShowOrders.html",{"Orders":orders ,"Count":count})
+  return render(request,"LegacyDatabasesApp/ShowOrders.html",{"Orders":newOrders ,"Count":count , "GrandTotal":runningTotal})
 
+def pushData(order,runningTotal,runningOrderTotal):
+  dataToPush={
+            "OrderID": ''  if(order == 0) else order.OrderID,
+            "OrderDate":  ''  if(order == 0) else order.OrderDate,
+            "CompanyName":  ''  if(order == 0) else order.CompanyName,
+            "ProductName":  ''  if(order == 0) else order.ProductName,
+            "UnitPrice":  ''  if(order == 0) else order.UnitPrice,
+            "Quantity":  ''  if(order == 0) else order.Quantity,
+            "BillAmount":  ''  if(order == 0) else order.BillAmount,
+            "RunningTotal":runningTotal,
+            "RunningOrderTotal":  ''  if(order == 0) else runningOrderTotal,
+        }
+  return dataToPush
 
