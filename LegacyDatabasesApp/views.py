@@ -3,7 +3,7 @@ import pyodbc
 from django.db.models import Q,Avg,Max,Min,Sum,Count
 
 
-from LegacyDatabasesApp.models import Categories, Orders
+from LegacyDatabasesApp.models import Categories, OrderDetails, Orders
 
 # Create your views here.
 def ShowCategories(request):
@@ -159,3 +159,15 @@ def FilteringQuerySetsDemo(request):
     
     return render(request,"LegacyDatabasesApp/FilteringDemo.html",
                    {"Orders":my_dict})
+
+def TwoLevelAccordionDemo(request):
+  orders = Orders.objects.filter(orderid__range=[10248,10260]).order_by('orderid')
+  listOrderIds = [ order.orderid for order in orders ]
+
+  listOrderDetails = OrderDetails.objects.filter(orderid__in=listOrderIds).order_by('orderid')
+
+  context = {      
+        'orders': orders,
+        'order_details': listOrderDetails        
+    }
+  return render(request,"LegacyDatabasesApp/OrdersWithAccordion.html",context)
