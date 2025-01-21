@@ -11,4 +11,5 @@ urlpatterns = [
   path('TwoLevelAccordionDemo', views.TwoLevelAccordionDemo,name='TwoLevelAccordionDemo'),
 
   path('ShowOrdersUsingCTT', views.ShowOrdersUsingCTT,name='ShowOrdersUsingCTT'),
+  path('CachingData', views.CachingData,name='CachingData'),
 ]

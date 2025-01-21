@@ -1,9 +1,9 @@
 from django.shortcuts import render
 import pyodbc
 from django.db.models import Q,Avg,Max,Min,Sum,Count
+from django.core.cache import cache
 
-
-from LegacyDatabasesApp.models import Categories, OrderDetails, Orders
+from LegacyDatabasesApp.models import Categories, Employees, OrderDetails, Orders
 
 # Create your views here.
 def ShowCategories(request):
@@ -174,3 +174,29 @@ def TwoLevelAccordionDemo(request):
 
 def ShowOrdersUsingCTT(request):
   return render(request,"LegacyDatabasesApp/ShowOrdersUsingCTT.html")
+
+from django.views.decorators.cache import cache_page
+
+def CachingData(request):
+  if cache.get("cache_employees_list") is None:
+    employees_list = Employees.objects.order_by('employeeid')
+    cache.set("cache_employees_list",employees_list,3600)
+
+    order_ids = Orders.objects.filter(employeeid__in=employees_list).values_list('orderid', flat=True).distinct()
+    orders = Orders.objects.filter(orderid__in=order_ids,orderid__range=[10248,10270]).order_by('orderid')
+    cache.set("cache_orders",orders,3600)
+
+    order_ids = [order.orderid for order in orders]
+    order_details_list = OrderDetails.objects.filter(orderid__in=order_ids).order_by('orderid')
+    cache.set("cache_order_details_list",order_details_list,3600)
+  else :
+    employees_list = cache.get("cache_employees_list")
+    orders = cache.get("cache_orders")
+    order_details_list = cache.get("cache_order_details_list")
+
+  context = {      
+        'employees': employees_list,    
+        'orders': orders,
+        'order_details': order_details_list,         
+    }
+  return render(request,"LegacyDatabasesApp/MultiLevelAccordion.html",context)
