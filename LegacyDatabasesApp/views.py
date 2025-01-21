@@ -171,3 +171,6 @@ def TwoLevelAccordionDemo(request):
         'order_details': listOrderDetails        
     }
   return render(request,"LegacyDatabasesApp/OrdersWithAccordion.html",context)
+
+def ShowOrdersUsingCTT(request):
+  return render(request,"LegacyDatabasesApp/ShowOrdersUsingCTT.html")
