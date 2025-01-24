@@ -12,4 +12,7 @@ urlpatterns = [
 
   path('ShowOrdersUsingCTT', views.ShowOrdersUsingCTT,name='ShowOrdersUsingCTT'),
   path('CachingData', views.CachingData,name='CachingData'),
+
+  path('ExportToCSV', views.ExportToCSV,name='ExportToCSV'),
+  path('ExportToJSON', views.ExportToJSON,name='ExportToJSON'),
 ]

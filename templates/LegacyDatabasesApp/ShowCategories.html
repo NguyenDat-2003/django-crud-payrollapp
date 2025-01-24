@@ -35,5 +35,7 @@
         {% endfor %}
       </tbody>
     </table>
+    <a class="btn btn-primary" href="{% url 'ExportToCSV'  %}">CSV</a>
+    <a class="btn btn-danger" href="{% url 'ExportToJSON'  %}">JSON</a>
   </body>
 </html>

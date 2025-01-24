@@ -1,7 +1,10 @@
+import json
 from django.shortcuts import render
 import pyodbc
 from django.db.models import Q,Avg,Max,Min,Sum,Count
 from django.core.cache import cache
+import csv
+from django.http import HttpResponse
 
 from LegacyDatabasesApp.models import Categories, Employees, OrderDetails, Orders
 
@@ -200,3 +203,34 @@ def CachingData(request):
         'order_details': order_details_list,         
     }
   return render(request,"LegacyDatabasesApp/MultiLevelAccordion.html",context)
+
+def ExportToCSV(request):
+  categories=Categories.objects.all()      
+  response = HttpResponse(
+      content_type="text/csv",
+      headers={"Content-Disposition": 'attachment; filename="Category_data.csv"'},
+  )
+
+  writer = csv.writer(response)
+  writer.writerow(['Category Id', 'Category Name', 'Description'])
+
+  for category in categories:
+    writer.writerow([category.categoryid, category.categoryname, category.description])
+
+  return response
+
+def ExportToJSON(request):
+  categories=Categories.objects.all()      
+  response = HttpResponse(
+      content_type="application/json",
+      headers={"Content-Disposition": 'attachment; filename="Category_data.json"'},
+  )
+
+  data = [{
+    'CategoryId': category.categoryid,
+    'CategoryName': category.categoryname,
+    'Description': category.description
+  } for category in categories ]
+
+  json.dump(data,response)
+  return response
